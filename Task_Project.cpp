@@ -228,7 +228,46 @@ void Back_To_Main_Menu()
     system("cls"); // I use this code to clear the screen.
     Start_Program();
 }
+//This function will change the 'working' task to 'done' task based on user request.
+void check(){
+    while(true){
+        int c=0,userChoice=-9999;
+        string content, line;
+        cout<<"****************************"<<endl;
+        cout<<"These are the \'Working\' task\n\n";    
+        for(auto task : Load_The_Working_Tasks_From_File()){  // print all the 'working' tasks
+            c++;
+            cout<<c<<") "+task+"\n";
+        }
+        cout<<"****************************"<<endl;
+        cout<<"\nPlease enter the completed task: ";
+        cin>>userChoice;
+        string userTask=Load_The_Working_Tasks_From_File()[userChoice-1];
+        fstream File;
+        File.open(File_Name, ios::in); // Read mode
+        while(getline(File,line)){ //This loop's for copying all the content of the file EXCEPT the user choice word.
+            if(line.find(userTask)==string::npos)// if the word isn't found 
+                content+=line+"\n";
+            else{
+                line=Task_Mode(userTask,"done");//convert the word to "done"
+                content+=line+"\n";
+            }
 
+        }
+        File.close();
+        File.open(File_Name, ios::out); // Write mode
+        File << content << endl;
+        File.close();
+        //Ask the user if he wanna do it again
+        string answer="no";
+        cout <<"Congratulations!! you have completed the "+userTask+" task!\n";
+        cout <<"\nDo you have another task completed? (yes/no)\n>> ";
+        cin>>answer;
+        if(answer == "no")
+            cout<<"\n\nThank You :-)\n\n";
+            break;
+    }
+}
 //This code will run and call all function.
 void Start_Program()
 {
@@ -279,7 +318,7 @@ void Start_Program()
     }
     case (enMainMenuOption::Check_Function):
     {
-        cout << "Check function must be here.";
+        check();
         system("pause>0");
         Back_To_Main_Menu();
         break;
