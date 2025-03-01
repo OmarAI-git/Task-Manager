@@ -7,17 +7,43 @@
 using namespace std;
 
 static string File_Name = "Tasks.txt";
+void Start_Program();
+
+// I use enum for the option.
+enum enMainMenuOption
+{
+    Add_Function = 1,
+    Delete_Function = 2,
+    Show_Function = 3,
+    Check_Function = 4,
+    Clear_Function = 5,
+    Exist_Function = 6
+};
+enum enMainShowOption
+{
+    Working_Tasks = 1,
+    Done_Tasks = 2,
+    Back_To_Menu = 3
+};
+enum enMainClear
+{
+    Clear_Working_Tasks = 1,
+    Clear_Done_Tasks = 2,
+    Clear_All_Tasks = 3,
+    Back = 4
+};
 
 // This function you can put the message as parameter that you want the user to input and retrun the value of input.
 string Enter_String(string message)
 {
     string input;
     cout << message;
+    cin.sync();  // Flush the input buffer
     getline(cin, input);
     return input;
 }
 
-//This function to make the string in lower case.
+// This function to make the string in lower case.
 string Make_The_String_Lower(string Task)
 {
     for (char &C : Task)
@@ -27,7 +53,7 @@ string Make_The_String_Lower(string Task)
     return Task;
 }
 
-//This function to make the string in upper case.
+// This function to make the string in upper case.
 string Make_The_String_Upper(string Task)
 {
     for (char &C : Task)
@@ -101,9 +127,20 @@ void Save_To_File_Working(string New_Task)
     }
 }
 
+void Add_Screen()
+{
+    cout << "\t\t\t==================================\n";
+    cout << "\t\t\t\tAdd Screen\n";
+    cout << "\t\t\t==================================\n";
+}
+
 // This function will add anew task as working task.
 void Add_Task()
 {
+    system("cls");
+
+    Add_Screen();
+
     string task = Enter_String("\nPlease, Enter the task: ");
 
     while (Is_Task_Existing(task))
@@ -117,20 +154,181 @@ void Add_Task()
 
     cout << "\nThe task add successfully :-)\n\n";
     cout << "Do you want to add another task (yes,no)? ";
-    getline(cin,answer);
+    getline(cin, answer);
 
     answer = Make_The_String_Lower(answer);
-    if(answer == "yes")
+    if (answer == "yes")
     {
         Add_Task();
     }
     else
     {
-        cout<<"\n\nThank You :-)\n\n";
+        cout << "\n\nThank You :-)\n\n";
+    }
+}
+
+// Function to get valid user input
+int getUserInput()
+{
+    int num;
+    while (!(cin >> num))
+    {                        // Check if input fails
+        cin.clear();         // Clear error state
+        cin.ignore(1, '\n'); // Discard invalid input
+        cout << "Invalid input! Please enter a number: ";
+    }
+    return num;
+}
+
+// Main Menu
+int menu()
+{
+    cout << "\nTask Manager\n"
+         << "____________\n"
+         << "1) Add.\n"
+         << "2) Delete.\n"
+         << "3) Show.\n"
+         << "4) Check.\n"
+         << "5) Clear.\n"
+         << "6) Exit.\n"
+         << "____________\n"
+         << "Enter your choice: ";
+    return getUserInput();
+}
+
+// Show Menu
+int show_menu()
+{
+    cout << "\nShow Tasks\n"
+         << "___________________\n"
+         << "1) Working Tasks\n"
+         << "2) Done Tasks\n"
+         << "3) Back to the menu\n"
+         << "___________________\n"
+         << "Enter your choice: ";
+    return getUserInput();
+}
+
+// Clear Menu
+int clear_menu()
+{
+    cout << "\nClear Tasks\n"
+         << "______________________\n"
+         << "1) Clear Working Tasks\n"
+         << "2) Clear Done Tasks\n"
+         << "3) Clear All Tasks\n"
+         << "4) Back to the menu\n"
+         << "______________________\n"
+         << "Enter your choice: ";
+    return getUserInput();
+}
+
+void Back_To_Main_Menu()
+{
+    system("cls"); // I use this code to clear the screen.
+    Start_Program();
+}
+
+//This code will run and call all function.
+void Start_Program()
+{
+    short choice = menu();
+    switch (choice)
+    {
+    case (enMainMenuOption::Add_Function):
+    {
+        Add_Task();
+        Back_To_Main_Menu();
+        break;
+    }
+    case (enMainMenuOption::Delete_Function):
+    {
+        system("cls");
+        cout << "\n\nThe Delete Function must be here.";
+        system("pause>0");
+        Back_To_Main_Menu();
+        break;
+    }
+    case (enMainMenuOption::Show_Function):
+    {
+        short option = show_menu();
+        switch (option)
+        {
+        case (enMainShowOption::Working_Tasks):
+        {
+            cout << "Show Working Tasks must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        case (enMainShowOption::Done_Tasks):
+        {
+            cout << " Show Done Tasks must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        case (enMainShowOption::Back_To_Menu):
+        {
+            cout << "Back To Main menu function must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        }
+    }
+    case (enMainMenuOption::Check_Function):
+    {
+        cout << "Check function must be here.";
+        system("pause>0");
+        Back_To_Main_Menu();
+        break;
+    }
+    case (enMainMenuOption::Clear_Function):
+    {
+        short option = clear_menu();
+        switch (option)
+        {
+        case (enMainClear::Clear_Working_Tasks):
+        {
+            cout << "Clear Working Task function must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        case (enMainClear::Clear_Done_Tasks):
+        {
+            cout << "Clear Done Task function must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        case (enMainClear::Clear_All_Tasks):
+        {
+            cout << "Clear All Task function must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        case (enMainClear::Back):
+        {
+            cout << "Back To Main menu function must be here.";
+            system("pause>0");
+            Back_To_Main_Menu();
+            break;
+        }
+        }
+    }
+    case (enMainMenuOption::Exist_Function):
+    {
+        cout << "Exist Function must be here.";
+        system("pause>0");
+        break;
+    }
     }
 }
 
 int main()
 {
-    Add_Task();
+    Start_Program();
 }
